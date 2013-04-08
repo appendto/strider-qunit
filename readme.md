@@ -7,7 +7,7 @@ some sort of cloud-browser testing service such as
 [Sauce Labs](https://github.com/Strider-CD/strider-sauce) or
 [Browserstack](https://github.com/Strider-CD/strider-browserstack)
 
-**Shameless Plug**: If you're using Sauce Labs, sign up with the promo code 'frozenridge'
+**Shameless Plug**: If you're using Sauce Labs, sign up with the promo code `frozenridge`
 and you'll get 5% off :)
 
 ## Configuration
