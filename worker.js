@@ -12,11 +12,13 @@ module.exports = function(ctx, cb) {
 
               var opts = {
                 // TODO use path() for :
-                testfile : 'test/index.html' // TODO override from db
-              , testdir: 'test' // TODO overide from DB
+                testfile : ctx.workingDir + '/test/index.html' // TODO override from db
+              , testdir: ctx.workingDir + '/test' // TODO overide from DB
+              , port: 4000
+              , path: ctx.workingDir
               }
 
-             server.start(opts, cb);
+             runner.start(opts, cb);
 
 
              console.log("!!! START QUNIT TEST SERVER :", arguments);
