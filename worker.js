@@ -1,16 +1,16 @@
-var runner = require('./qunit-runner')
+var runner = require('run-qunit')
 
 var createResultsHandler = function(ctx){
   return function(resbody){
     console.log("strider-qunit > Results:", resbody);
 
-    var res = JSON.parse(resbody[data])
+    var res = JSON.parse(resbody.data)
 
     for (var i = 0; i<res.tracebacks.length; i++){
       res.tracebacks[i] = JSON.parse(res.tracebacks[i])
     }
 
-    ctx.events.emit('results', res);
+    ctx.events.emit('testDone', res);
   }
 }
 
@@ -43,7 +43,10 @@ module.exports = function(ctx, cb) {
              // TEMP TODO
              require('child_process').exec("grunt || (npm install && grunt)", {cwd: ctx.workingDir}, function(err, stdout, stderr){
                console.log("Grunt finished")
-               runner.start(opts, createResultsHandler(ctx), cb);
+               runner.start(opts, createResultsHandler(ctx), function(){
+                 console.log("Strider-QUnit Runner Started");
+                 cb(0)
+               });
              });
 
 
