@@ -27,7 +27,9 @@ module.exports = function(ctx, cb) {
                 sys.puts(stdout)
                 sys.puts(stderr)
 
-               runner.start(opts, cb);
+               runner.start(opts, function(){
+                 console.log("QUNIT PLUGIN RECEIVED RESULTS", arguments)
+               }, cb);
                console.log("!!! START QUNIT TEST SERVER :", arguments);
 
              });
