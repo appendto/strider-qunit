@@ -13,15 +13,25 @@ module.exports = function(ctx, cb) {
               var opts = {
                 // TODO use path() for :
                 testfile : ctx.workingDir + '/test/index.html' // TODO override from db
-              , testdir: ctx.workingDir + '/test' // TODO overide from DB
+              , testdir: ctx.workingDir  // TODO overide from DB
               , port: 4000
               , path: ctx.workingDir
               }
 
-             runner.start(opts, cb);
 
+             // TODO:
+             console.log(ctx.workingDir);
+             require('child_process').exec("npm install && grunt", {cwd: ctx.workingDir}, function(err, stdout, stderr){
+                var sys = require('sys')
+                console.log("!! Running grunt", err);
+                sys.puts(stdout)
+                sys.puts(stderr)
 
-             console.log("!!! START QUNIT TEST SERVER :", arguments);
+               runner.start(opts, cb);
+               console.log("!!! START QUNIT TEST SERVER :", arguments);
+
+             });
+
 
            }
 

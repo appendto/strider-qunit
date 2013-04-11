@@ -18,12 +18,21 @@ module.exports = {
           console.log("TEST RESULTS", req.body);
           return res.end("Results received")
 
-        } else if (/^\/strider/.test(req.url)){
-          console.log("!!>> Strider serve test")
+        } else if (/\/test\/index\.html/.test(req.url)){
+          console.log("!!>> Strider serve test", req.url)
           var f = fs.readFileSync(opts.testfile, 'utf8')
-          f += "<script>" + fs.readFileSync(__dirname + "/qunit-plugin.js", "utf8");
+          // Replace body close tag with script, body
+          f = f.replace(/(.*)<\/body>/,
+              "$1<script>" + 
+                  fs.readFileSync(__dirname + "/qunit-plugin.js", "utf8") + 
+                "</script></body>");
           return res.end(f);
         }
+
+        if (/\.php$/.test(req.url)){
+          console.log("PHP: " + req.url);
+        }
+
         return next();
       });
 
