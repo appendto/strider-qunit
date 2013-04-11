@@ -1,5 +1,20 @@
 var runner = require('./qunit-runner')
 
+var createResultsHandler = function(ctx){
+  return function(resbody){
+    console.log("strider-qunit > Results:", resbody);
+
+    var res = JSON.parse(resbody[data])
+
+    for (var i = 0; i<res.tracebacks.length; i++){
+      res.tracebacks[i] = JSON.parse(res.tracebacks[i])
+    }
+
+    ctx.events.emit('results', res);
+  }
+}
+
+
 module.exports = function(ctx, cb) {
 
     ctx.addDetectionRule({
@@ -10,6 +25,10 @@ module.exports = function(ctx, cb) {
           , framework: "qunit"
           , prepare: function(ctx, cb){
 
+              if (!ctx.events){
+                throw "strider-qunit requires a worker with events bus - is your strider-simple-worker out of date?"
+              }
+
               var opts = {
                 // TODO use path() for :
                 testfile : ctx.workingDir + '/test/index.html' // TODO override from db
@@ -19,19 +38,12 @@ module.exports = function(ctx, cb) {
               }
 
 
-             // TODO:
-             console.log(ctx.workingDir);
-             require('child_process').exec("npm install && grunt", {cwd: ctx.workingDir}, function(err, stdout, stderr){
-                var sys = require('sys')
-                console.log("!! Running grunt", err);
-                sys.puts(stdout)
-                sys.puts(stderr)
+             console.log("Setting up qunit server:", opts);
 
-               runner.start(opts, function(){
-                 console.log("QUNIT PLUGIN RECEIVED RESULTS", arguments)
-               }, cb);
-               console.log("!!! START QUNIT TEST SERVER :", arguments);
-
+             // TEMP TODO
+             require('child_process').exec("grunt || (npm install && grunt)", {cwd: ctx.workingDir}, function(err, stdout, stderr){
+               console.log("Grunt finished")
+               runner.start(opts, createResultsHandler(ctx), cb);
              });
 
 
