@@ -22,6 +22,13 @@ module.exports = function(ctx, cb) {
                 throw "strider-qunit requires a worker with events bus - is your strider-simple-worker out of date?"
               }
 
+              var cgi = require('gateway')(ctx.workingDir, {'.php': 'php-cgi'})
+
+              var cgiwrap = function(){
+                console.log("!!! -> CGI: ", req.url)
+                return cgi.apply(this, arguments);
+              }
+
               var opts = {
                 // TODO use path() for :
                 testfile : ctx.workingDir + '/test/index.html' // TODO override from db
@@ -29,6 +36,7 @@ module.exports = function(ctx, cb) {
               , port: 4000
               , path: ctx.workingDir
               , useID : true
+              , middleware : [cgi]
               }
 
 

@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "run-qunit" : "latest"
+  , "gateway" : "latest"
   },
   "repository": "",
   "author": "Peter Braden <peterbraden@peterbraden.co.uk>",
