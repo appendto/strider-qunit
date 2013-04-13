@@ -57,18 +57,11 @@ module.exports = function(ctx, cb) {
 
            }
 
-          , test: function(){
-            // Do NOTHING
-            // Either a cloud browser, or a manual one
-            // will connect and run the tests.
-            // Because they might want to run more than one 
-            // browser, we leave the server running for them.
-          }
-
-          , cleanup: function(){
+           , cleanup: function(ctx, cb){
             if (runner.open()){
               runner.close()
             }
+            cb(0)
           }
         })
 
