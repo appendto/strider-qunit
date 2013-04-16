@@ -37,6 +37,16 @@ module.exports = function(ctx, cb) {
               , path: ctx.workingDir
               , useID : true
               , middleware : [cgi]
+              , progressCB: function(err, data){
+                  ctx.striderMessage("QUnit Progress (Job "+
+                      data.id + ") " + data.tests_run + " tests run");
+                  if (data.tracebacks){
+                    for (var i = 0; i<data.tracebacks.length; i++){
+                      ctx.striderMessage("\n\n[ERROR]" + data.tracebacks[i]);
+                    }
+                  }
+                  console.log("QUnit Progress", data);
+                }
               }
 
 
