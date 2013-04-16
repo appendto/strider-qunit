@@ -44,16 +44,10 @@ module.exports = function(ctx, cb) {
              ctx.browsertestPort =  opts.port;
              ctx.browsertestPath = "/test/index.html" //TODO overwrite from DB
 
-             // TEMP TODO
-             require('child_process').exec("grunt || (npm install && grunt)", {cwd: ctx.workingDir}, function(err, stdout, stderr){ 
-               console.log("Grunt finished")
-
-               runner.start(opts, createResultsHandler(ctx), function(){
-                 ctx.striderMessage("Strider-QUnit Runner Started");
-                 cb(0)
-               });
+             runner.start(opts, createResultsHandler(ctx), function(){
+               ctx.striderMessage("Strider-QUnit Runner Started");
+               cb(0)
              });
-
 
            }
 
