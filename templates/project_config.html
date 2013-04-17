@@ -1,7 +1,57 @@
-<div id="qunit_config" data-widget="/ext/strider-qunit/qunit_config.js" class="tab-pane widget">
+<script>
+$(function(){
+  var repo = $("html").data('controller-params').repo_url;
+
+  $("#save_qunit").click(function(e){
+    $.post("/api/qunit", {
+        url: repo
+      , path: $("#qunit_path").val()
+      , file: $("#qunit_file").val()
+      }, function(res){
+        console.log(res);
+    })
+    e.preventDefault()
+    return false;
+  })
+
+  $.get("/api/qunit", {url :repo}, function(res){
+    if (res.results.file)
+      $("#qunit_file").val(res.results.file)
+    if (res.results.path)
+      $("#qunit_path").val(res.results.path)
+  }, 'json')
+
+
+})
+
+</script>
+<div id="qunit_config" class="tab-pane widget">
   <div class="row-fluid">
     <div class="span10">
       <h3>Qunit Settings</h3>
+
+      <form class='form-horizontal'>
+
+        <div class='control-group'>
+          <label class='control-label'  for="qunit_path">Path to Test</label>
+          <div class='controls'>
+            <input type='text' id = "qunit_path" name = "path" placeholder="/path/to/test/" />
+          </div>
+        </div>
+
+        <div class='control-group'>
+          <label class='control-label'  for="qunit_file">Test File</label>
+          <div class='controls'>
+            <input type='text' id = "qunit_file" name = "file" placeholder="test.html" />
+          </div>
+      </div>
+
+      <div class='control-group'>
+        <div class='controls'>
+          <button id="save_qunit" class='btn btn-primary btn-large'>Save</button>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
