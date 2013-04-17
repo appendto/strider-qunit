@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "run-qunit" : "latest"
-  , "gateway" : "latest"
+  , "gateway" : "https://github.com/FrozenRidge/gateway/archive/master.tar.gz"
   },
   "repository": "",
   "author": "Peter Braden <peterbraden@peterbraden.co.uk>",
