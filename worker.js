@@ -1,3 +1,4 @@
+var path = require('path')
 var runner = require('run-qunit')
 
 var createResultsHandler = function(ctx){
@@ -7,11 +8,20 @@ var createResultsHandler = function(ctx){
   }
 }
 
+function getFilename(ctx) {
+  if (ctx.jobData && ctx.jobData.repo_config && ctx.jobData.repo_config.qunit_files)
+    return ctx.jobData.repo_config.qunit_files
+
+  return "test/index.html"
+}
+
 
 module.exports = function(ctx, cb) {
 
     ctx.addDetectionRule({
-            filename: "test/index.html"
+            filename: function(ctx, cb) {
+              cb(null, getFilename(ctx))
+            }
           , grep: /qunit/gi
           , exists: true
           , language: "javascript"
@@ -30,8 +40,7 @@ module.exports = function(ctx, cb) {
               }
 
               var opts = {
-                // TODO use path() for :
-                testfile : ctx.workingDir + '/test/index.html' // TODO override from db
+                testfile : path.join(ctx.workingDir, getFilename(ctx))
               , testdir: ctx.workingDir  // TODO overide from DB
               , port: 4000
               , path: ctx.workingDir
@@ -49,10 +58,13 @@ module.exports = function(ctx, cb) {
                 }
               }
 
+             console.dir(ctx.data)
+             console.log("file: %s", opts.testfile)
+
 
              ctx.striderMessage("Setting up qunit server");
              ctx.browsertestPort =  opts.port;
-             ctx.browsertestPath = "/test/index.html" //TODO overwrite from DB
+             ctx.browsertestPath = "/" + getFilename(ctx)
 
              runner.start(opts, createResultsHandler(ctx), function(){
                ctx.striderMessage("Strider-QUnit Runner Started");
