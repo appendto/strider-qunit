@@ -3,6 +3,11 @@ var runner = require('run-qunit')
 
 var createResultsHandler = function(ctx){
   return function(res){
+    if (res.tracebacks){
+      for (var i = 0; i<res.tracebacks.length; i++){
+        ctx.striderMessage("\n\n[ERROR]" + res.tracebacks[i]);
+      }
+    }
     console.log("strider-qunit > Results:", res);
     ctx.events.emit('testDone', res);
   }

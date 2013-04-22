@@ -38,7 +38,8 @@ module.exports = function(ctx, cb) {
         status: "ok",
         errors: [],
         results: {
-          test_files: repo.get('qunit_files'),
+          file: repo.get('qunit_file'),
+          path: repo.get('qunit_path'),
         }
       }
       return res.end(JSON.stringify(r, null, '\t'))
@@ -51,12 +52,12 @@ module.exports = function(ctx, cb) {
    * Set the current Strider config for specified project.
    *
    * @param url Github html_url of the project.
-   * @param test_files Comma separated Html test files to serve.
    *
    */
   function postIndex(req, res) {
     var url = req.param("url")
-    var test_files = req.param("test_files")
+      , path = req.body["path"]
+      , file = req.body["file"]
 
     function error(err_msg) {
       console.error("Strider-QUnit: postIndex() - %s", err_msg)
@@ -80,18 +81,22 @@ module.exports = function(ctx, cb) {
         return error("You must have access level greater than 0 in order to be able to configure qunit.");
       }
       var q = {$set:{}}
-      if (test_files) {
-        repo.set('qunit_files', test_files)
+      if (path) {
+        repo.set('qunit_path', path)
+      }
+      if (file) {
+        repo.set('qunit_file', file)
       }
 
       var r = {
         status: "ok",
         errors: [],
         results: {
-          test_files: repo.get('qunit_files'),
+          files: repo.get('qunit_file'),
+          path: repo.get('qunit_path')
         }
       }
-      if (test_files) {
+      if (file || path) {
         req.user.save(function(err) {
             if (err) {
               var errmsg = "Error saving qunit config " + req.user.email + ": " + err;
@@ -109,7 +114,8 @@ module.exports = function(ctx, cb) {
   // Extend RepoConfig model with 'QUnit' properties
   function qunitPlugin(schema, opts) {
     schema.add({
-      qunit_files: String,
+      qunit_file: String,
+      qunit_path: String,
     })
   }
   ctx.models.RepoConfig.plugin(qunitPlugin)
