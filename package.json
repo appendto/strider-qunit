@@ -1,14 +1,14 @@
 {
   "name": "strider-qunit",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "--",
   "main": "webapp.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "run-qunit" : "latest"
-  , "gateway" : "https://github.com/FrozenRidge/gateway/archive/master.tar.gz"
+    "run-qunit": "latest",
+    "gateway": "https://github.com/FrozenRidge/gateway/archive/master.tar.gz"
   },
   "repository": "",
   "author": "Peter Braden <peterbraden@peterbraden.co.uk>",
