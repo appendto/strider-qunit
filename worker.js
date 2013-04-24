@@ -47,7 +47,7 @@ module.exports = function(ctx, cb) {
               var opts = {
                 testfile : path.join(ctx.workingDir, getFilename(ctx))
               , testdir: ctx.workingDir  // TODO overide from DB
-              , port: 4000
+              , port: ctx.browsertestPort || 8031
               , path: ctx.workingDir
               , useID : true
               , middleware : [cgi]
