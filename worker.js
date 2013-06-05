@@ -14,9 +14,10 @@ var createResultsHandler = function(ctx){
 }
 
 function getFilename(ctx) {
-  if (ctx.jobData && ctx.jobData.repo_config && ctx.jobData.repo_config.qunit_files)
-    return ctx.jobData.repo_config.qunit_files
+  if (ctx.jobData && ctx.jobData.repo_config && ctx.jobData.repo_config.qunit_file)
+    return ctx.jobData.repo_config.qunit_file
 
+  console.log("Couldn't find a QUnit filename - using default")
   return "test/index.html"
 }
 
