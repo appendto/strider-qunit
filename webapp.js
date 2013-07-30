@@ -56,8 +56,8 @@ module.exports = function(ctx, cb) {
    */
   function postIndex(req, res) {
     var url = req.param("url")
-      , path = req.body["path"]
-      , file = req.body["file"]
+      , path = req.body["qunit_path"]
+      , file = req.body["qunit_file"]
 
     function error(err_msg) {
       console.error("Strider-QUnit: postIndex() - %s", err_msg)
@@ -73,14 +73,6 @@ module.exports = function(ctx, cb) {
       if (err) {
         return error("Error fetching Repo Config for url " + url + ": " + err)
       }
-      // must have access_level > 0 to be able to continue;
-      if (access_level < 1) {
-        console.debug(
-          "User %s tried to change qunit config but doesn't have admin privileges on %s (access level: %s)",
-          req.user.email, url, access_level);
-        return error("You must have access level greater than 0 in order to be able to configure qunit.");
-      }
-      var q = {$set:{}}
       if (path) {
         repo.set('qunit_path', path)
       }
@@ -126,7 +118,7 @@ module.exports = function(ctx, cb) {
     ctx.middleware.require_params(["url"]),
     getIndex)
   ctx.route.post("/api/qunit",
-    ctx.middleware.require_auth,
+    ctx.middleware.require_admin,
     ctx.middleware.require_params(["url"]),
     postIndex)
 
@@ -135,6 +127,9 @@ module.exports = function(ctx, cb) {
     src: path.join(__dirname, "templates", "project_config.html"),
     title: "QUnit Config",
     id:"qunit_config",
+    plugin_name: 'strider-qunit',
+    controller: 'QunitCtrl',
+    data: ['qunit_file', 'qunit_path']
   })
 
 
