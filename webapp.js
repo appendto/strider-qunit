@@ -73,6 +73,14 @@ module.exports = function(ctx, cb) {
       if (err) {
         return error("Error fetching Repo Config for url " + url + ": " + err)
       }
+      // must have access_level > 0 to be able to continue;
+      if (access_level < 1) {
+        console.debug(
+          "User %s tried to change qunit config but doesn't have admin privileges on %s (access level: %s)",
+          req.user.email, url, access_level);
+        return error("You must have access level greater than 0 in order to be able to configure qunit.");
+      }
+      var q = {$set:{}}
       if (path) {
         repo.set('qunit_path', path)
       }
@@ -118,7 +126,7 @@ module.exports = function(ctx, cb) {
     ctx.middleware.require_params(["url"]),
     getIndex)
   ctx.route.post("/api/qunit",
-    ctx.middleware.require_admin,
+    ctx.middleware.require_auth,
     ctx.middleware.require_params(["url"]),
     postIndex)
 
