@@ -81,12 +81,8 @@ module.exports = function(ctx, cb) {
         return error("You must have access level greater than 0 in order to be able to configure qunit.");
       }
       var q = {$set:{}}
-      if (path) {
-        repo.set('qunit_path', path)
-      }
-      if (file) {
-        repo.set('qunit_file', file)
-      }
+      repo.set('qunit_path', path)
+      repo.set('qunit_file', file)
 
       var r = {
         status: "ok",
@@ -96,17 +92,13 @@ module.exports = function(ctx, cb) {
           path: repo.get('qunit_path')
         }
       }
-      if (file || path) {
-        req.user.save(function(err) {
-            if (err) {
-              var errmsg = "Error saving qunit config " + req.user.email + ": " + err;
-              return error(errmsg)
-            }
-            return res.end(JSON.stringify(r, null, '\t'))
-        })
-      } else {
+      req.user.save(function(err) {
+        if (err) {
+          var errmsg = "Error saving qunit config " + req.user.email + ": " + err;
+          return error(errmsg)
+        }
         return res.end(JSON.stringify(r, null, '\t'))
-      }
+      })
     })
 
   }
