@@ -1,25 +1,25 @@
 <div id="qunit_config" class="tab-pane widget">
   <h3>Qunit Settings</h3>
+  <hr>
 
-  <form class='form-horizontal'>
-    <div class='control-group'>
-      <label class='control-label'  for="qunit_path">Path to Test</label>
-      <div class='controls'>
-        <input type="text" ng-model="data.qunit_path" name="path" placeholder="/path/to/test/"/>
-      </div>
+  <div class='control-group'>
+    <label class='control-label'  for="qunit_path">Path to Test</label>
+    <div class='controls'>
+      <input type="text" ng-model="data.qunit_path" name="path" placeholder="/path/to/test/"/>
     </div>
+  </div>
 
-    <div class='control-group'>
-      <label class='control-label'  for="qunit_file">Test File</label>
-      <div class='controls'>
-        <input type='text' ng-model="data.qunit_file" name="file" placeholder="test.html"/>
-      </div>
+  <div class='control-group'>
+    <label class='control-label'  for="qunit_file">Test File</label>
+    <div class='controls'>
+      <input type='text' ng-model="data.qunit_file" name="file" placeholder="test.html"/>
     </div>
+  </div>
 
-    <div class='control-group'>
-      <div class='controls'>
-        <button ng-click="save()" class="btn btn-primary btn-large">Save</button>
-      </div>
+  <div class='control-group'>
+    <div class='controls'>
+      <button ng-disabled="loading" ng-click="save()" class="btn btn-primary btn-large">Save</button>
     </div>
+  </div>
 </div>
 
