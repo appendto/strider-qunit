@@ -5,7 +5,7 @@ var createResultsHandler = function(ctx){
   return function(res){
     if (res.tracebacks){
       for (var i = 0; i<res.tracebacks.length; i++){
-        ctx.striderMessage("\n\n[ERROR]" + res.tracebacks[i]);
+        ctx.striderMessage("\n\n[ERROR][QUNIT]" + res.tracebacks[i]);
       }
     }
     console.log("strider-qunit > Results:", res);
@@ -57,7 +57,7 @@ module.exports = function(ctx, cb) {
                       data.id + ") " + data.tests_run + " tests run");
                   if (data.tracebacks){
                     for (var i = 0; i<data.tracebacks.length; i++){
-                      ctx.striderMessage("\n\n[ERROR]" + data.tracebacks[i]);
+                      ctx.striderMessage("\n\n[ERROR][QUNIT]" + data.tracebacks[i]);
                     }
                   }
                   console.log("QUnit Progress", data);
