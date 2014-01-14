@@ -22,7 +22,7 @@ function getFilename(ctx) {
 }
 
 
-module.exports = function(ctx, cb) {
+exports.init = function(config, job, ctx, cb) {
 
     ctx.addDetectionRule({
             filename: function(ctx, cb) {

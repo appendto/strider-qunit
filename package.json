@@ -13,5 +13,13 @@
   "repository": "",
   "author": "Peter Braden <peterbraden@peterbraden.co.uk>",
   "license": "BSD",
-  "readmeFilename": "readme.md"
+  "readmeFilename": "readme.md",
+  "strider": {
+      "id": "qunit",
+      "type": "job",
+      "worker" : "worker.js",
+      "webapp": "webapp.js",
+      "weight" : 100
+  }
+
 }

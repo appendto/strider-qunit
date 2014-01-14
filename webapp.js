@@ -8,7 +8,7 @@
 
 var path = require('path')
 
-module.exports = function(ctx, cb) {
+module.exports = function(_, ctx, cb) {
   /*
    * GET /api/qunit/
    *
